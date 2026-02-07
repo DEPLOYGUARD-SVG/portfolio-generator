@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= data.fullName || 'Portfolio' %></title>
+  <% if (embedded) { %>
+  <style><%- css %></style>
+  <% } else { %>
+  <link rel="stylesheet" href="style.css">
+  <% } %>
+</head>
+<body>
+  <div class="portfolio">
+    <header class="hero">
+      <div class="hero-content">
+        <% if (data.photo) { %>
+        <img src="<%= data.photo %>" alt="<%= data.fullName %>" class="avatar">
+        <% } else { %>
+        <div class="avatar-placeholder"><%= (data.fullName || 'U').charAt(0) %></div>
+        <% } %>
+        <div class="hero-text">
+          <h1><%= data.fullName || 'Your Name' %></h1>
+          <% if (data.title) { %><p class="subtitle"><%= data.title %></p><% } %>
+        </div>
+      </div>
+      <% if (data.about) { %><p class="about"><%= data.about %></p><% } %>
+      <div class="social-links">
+        <% if (data.github) { %><a href="<%= data.github %>" target="_blank" class="social-btn">GitHub</a><% } %>
+        <% if (data.linkedin) { %><a href="<%= data.linkedin %>" target="_blank" class="social-btn">LinkedIn</a><% } %>
+        <% if (data.twitter) { %><a href="<%= data.twitter %>" target="_blank" class="social-btn">Twitter</a><% } %>
+        <% if (data.website) { %><a href="<%= data.website %>" target="_blank" class="social-btn">Website</a><% } %>
+      </div>
+    </header>
+
+    <% if (data.dob || data.gender || data.nationality || data.drivingLicense) { %>
+    <section class="section">
+      <h2><span class="section-icon">&#9670;</span> Personal Details</h2>
+      <div class="personal-grid">
+        <% if (data.dob) { %><div class="personal-card"><p class="personal-label">Date of Birth</p><p><%= data.dob %></p></div><% } %>
+        <% if (data.nationality) { %><div class="personal-card"><p class="personal-label">Nationality</p><p><%= data.nationality %></p></div><% } %>
+        <% if (data.gender) { %><div class="personal-card"><p class="personal-label">Gender</p><p><%= data.gender %></p></div><% } %>
+        <% if (data.drivingLicense) { %><div class="personal-card"><p class="personal-label">Driving License</p><p><%= data.drivingLicense %></p></div><% } %>
+      </div>
+    </section>
+    <% } %>
+
+    <% if (data.experience && data.experience.length > 0) { %>
+    <section class="section">
+      <h2><span class="section-icon">&#9670;</span> Experience</h2>
+      <div class="cards-grid">
+        <% data.experience.forEach(function(exp) { %>
+        <div class="card">
+          <span class="date"><%= exp.startDate || '' %> &mdash; <%= exp.endDate || '' %></span>
+          <h3><%= exp.position || '' %></h3>
+          <p class="company"><%= exp.company || '' %></p>
+          <% if (exp.description) { %><p class="desc"><%= exp.description %></p><% } %>
+        </div>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
+    <% if (data.skills && data.skills.length > 0) { %>
+    <section class="section">
+      <h2><span class="section-icon">&#9670;</span> Skills</h2>
+      <div class="skills-wrap">
+        <% data.skills.forEach(function(skill) { %>
+        <div class="skill-chip">
+          <span class="skill-name"><%= skill.name || '' %></span>
+          <span class="skill-dot dot-<%= (skill.level || '').toLowerCase() %>"></span>
+        </div>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
+    <% if (data.languages && data.languages.length > 0) { %>
+    <section class="section">
+      <h2><span class="section-icon">&#9670;</span> Languages</h2>
+      <div class="skills-wrap">
+        <% data.languages.forEach(function(lang) { %>
+        <div class="language-chip">
+          <span class="language-name"><%= lang.name || '' %></span>
+          <% if (lang.level) { %><span class="language-badge"><%= lang.level %></span><% } %>
+        </div>
+        <% }); %>
+      </div>
+      <% data.languages.forEach(function(lang) { %>
+      <% if (lang.listening || lang.reading || lang.speaking || lang.writing) { %>
+      <div class="language-detail-card">
+        <p class="language-detail-name"><%= lang.name %></p>
+        <div class="language-skills-row">
+          <% if (lang.listening) { %><span class="lang-skill-tag">Listening: <%= lang.listening %></span><% } %>
+          <% if (lang.reading) { %><span class="lang-skill-tag">Reading: <%= lang.reading %></span><% } %>
+          <% if (lang.speaking) { %><span class="lang-skill-tag">Speaking: <%= lang.speaking %></span><% } %>
+          <% if (lang.writing) { %><span class="lang-skill-tag">Writing: <%= lang.writing %></span><% } %>
+        </div>
+      </div>
+      <% } %>
+      <% }); %>
+    </section>
+    <% } %>
+
+    <% if (data.projects && data.projects.length > 0) { %>
+    <section class="section">
+      <h2><span class="section-icon">&#9670;</span> Projects</h2>
+      <div class="cards-grid">
+        <% data.projects.forEach(function(proj) { %>
+        <div class="card">
+          <h3><%= proj.name || '' %></h3>
+          <% if (proj.description) { %><p class="desc"><%= proj.description %></p><% } %>
+          <% if (proj.tech) { %><p class="tech-tags"><% proj.tech.split(',').forEach(function(t) { %><span class="tag"><%= t.trim() %></span><% }); %></p><% } %>
+          <div class="project-links">
+            <% if (proj.demo) { %><a href="<%= proj.demo %>" target="_blank">Live Demo</a><% } %>
+            <% if (proj.github) { %><a href="<%= proj.github %>" target="_blank">Source Code</a><% } %>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
+    <% if (data.education && data.education.length > 0) { %>
+    <section class="section">
+      <h2><span class="section-icon">&#9670;</span> Education</h2>
+      <div class="cards-grid">
+        <% data.education.forEach(function(edu) { %>
+        <div class="card">
+          <span class="date"><%= edu.startDate || '' %> &mdash; <%= edu.endDate || '' %></span>
+          <h3><%= edu.degree || '' %></h3>
+          <p class="company"><%= edu.school || '' %></p>
+          <% if (edu.description) { %><p class="desc"><%= edu.description %></p><% } %>
+        </div>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
+    <% if (data.certifications && data.certifications.length > 0) { %>
+    <section class="section">
+      <h2><span class="section-icon">&#9670;</span> Certifications</h2>
+      <div class="cards-grid">
+        <% data.certifications.forEach(function(cert) { %>
+        <div class="card">
+          <% if (cert.date) { %><span class="date"><%= cert.date %></span><% } %>
+          <h3><%= cert.name || '' %></h3>
+          <% if (cert.issuer) { %><p class="company"><%= cert.issuer %></p><% } %>
+          <% if (cert.credentialId) { %><p class="desc">Credential ID: <%= cert.credentialId %></p><% } %>
+          <% if (cert.url) { %><div class="project-links"><a href="<%= cert.url %>" target="_blank">View Credential</a></div><% } %>
+        </div>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
+    <% if (data.awards && data.awards.length > 0) { %>
+    <section class="section">
+      <h2><span class="section-icon">&#9670;</span> Awards</h2>
+      <div class="cards-grid">
+        <% data.awards.forEach(function(award) { %>
+        <div class="card">
+          <% if (award.date) { %><span class="date"><%= award.date %></span><% } %>
+          <h3><%= award.title || '' %></h3>
+          <% if (award.issuer) { %><p class="company"><%= award.issuer %></p><% } %>
+          <% if (award.description) { %><p class="desc"><%= award.description %></p><% } %>
+        </div>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
+    <% if (data.volunteering && data.volunteering.length > 0) { %>
+    <section class="section">
+      <h2><span class="section-icon">&#9670;</span> Volunteering</h2>
+      <div class="cards-grid">
+        <% data.volunteering.forEach(function(vol) { %>
+        <div class="card">
+          <span class="date"><%= vol.startDate || '' %> &mdash; <%= vol.endDate || '' %></span>
+          <h3><%= vol.role || '' %></h3>
+          <p class="company"><%= vol.organization || '' %></p>
+          <% if (vol.description) { %><p class="desc"><%= vol.description %></p><% } %>
+        </div>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
+    <% if (data.interests) { %>
+    <section class="section">
+      <h2><span class="section-icon">&#9670;</span> Interests</h2>
+      <p class="interests-text"><%= data.interests %></p>
+    </section>
+    <% } %>
+
+    <% if (data.references && data.references.length > 0) { %>
+    <section class="section">
+      <h2><span class="section-icon">&#9670;</span> References</h2>
+      <div class="cards-grid">
+        <% data.references.forEach(function(ref) { %>
+        <div class="card">
+          <h3><%= ref.name || '' %></h3>
+          <% if (ref.position) { %><p class="company"><%= ref.position %></p><% } %>
+          <% if (ref.relationship) { %><p class="desc"><%= ref.relationship %></p><% } %>
+          <div class="reference-contact">
+            <% if (ref.email) { %><p><a href="mailto:<%= ref.email %>" class="ref-link"><%= ref.email %></a></p><% } %>
+            <% if (ref.phone) { %><p class="ref-phone"><%= ref.phone %></p><% } %>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
+    <% if (data.email || data.phone || data.city || data.address) { %>
+    <section class="section">
+      <h2><span class="section-icon">&#9670;</span> Contact</h2>
+      <div class="contact-grid">
+        <% if (data.email) { %><div class="contact-card"><p class="contact-label">Email</p><a href="mailto:<%= data.email %>"><%= data.email %></a></div><% } %>
+        <% if (data.phone) { %><div class="contact-card"><p class="contact-label">Phone</p><p><%= data.phone %></p></div><% } %>
+        <% if (data.address) { %><div class="contact-card"><p class="contact-label">Address</p><p><%= data.address %></p></div><% } %>
+        <% if (data.postalCode) { %><div class="contact-card"><p class="contact-label">Postal Code</p><p><%= data.postalCode %></p></div><% } %>
+        <% if (data.city || data.country) { %><div class="contact-card"><p class="contact-label">Location</p><p><%= [data.city, data.country].filter(Boolean).join(', ') %></p></div><% } %>
+      </div>
+    </section>
+    <% } %>
+  </div>
+</body>
+</html>

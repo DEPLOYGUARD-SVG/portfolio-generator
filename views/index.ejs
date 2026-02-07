@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="logo">
+        <span class="logo-icon">&#9671;</span>
+        <h1>Portfolio Generator</h1>
+      </div>
+      <p class="tagline">Build your portfolio in minutes</p>
+    </header>
+
+    <div class="main-layout">
+      <div class="form-panel">
+        <div class="progress-bar">
+          <div class="progress-steps">
+            <button class="progress-step active" data-step="0"><span class="step-num">1</span><span class="step-label">Personal</span></button>
+            <button class="progress-step" data-step="1"><span class="step-num">2</span><span class="step-label">Contact</span></button>
+            <button class="progress-step" data-step="2"><span class="step-num">3</span><span class="step-label">Experience</span></button>
+            <button class="progress-step" data-step="3"><span class="step-num">4</span><span class="step-label">Education</span></button>
+            <button class="progress-step" data-step="4"><span class="step-num">5</span><span class="step-label">Skills</span></button>
+            <button class="progress-step" data-step="5"><span class="step-num">6</span><span class="step-label">Projects</span></button>
+            <button class="progress-step" data-step="6"><span class="step-num">7</span><span class="step-label">Certs</span></button>
+            <button class="progress-step" data-step="7"><span class="step-num">8</span><span class="step-label">Additional</span></button>
+          </div>
+          <div class="progress-track"><div class="progress-fill"></div></div>
+        </div>
+
+        <!-- Step 1: Personal Info -->
+        <div class="form-step active" data-step="0">
+          <h2>Personal Information</h2>
+          <div class="form-row">
+            <div class="form-group"><label>Full Name</label><input type="text" id="fullName" placeholder="John Doe"></div>
+            <div class="form-group"><label>Title / Position</label><input type="text" id="title" placeholder="Frontend Developer"></div>
+          </div>
+          <div class="form-group">
+            <label>About / Summary</label>
+            <textarea id="about" rows="3" placeholder="A brief professional summary..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Profile Photo URL</label>
+            <input type="url" id="photo" placeholder="https://example.com/photo.jpg">
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Date of Birth</label><input type="date" id="dob"></div>
+            <div class="form-group"><label>Gender</label>
+              <select id="gender">
+                <option value="">-- Select --</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+                <option value="Prefer not to say">Prefer not to say</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Nationality</label><input type="text" id="nationality" placeholder="Turkish"></div>
+            <div class="form-group"><label>Driving License</label><input type="text" id="drivingLicense" placeholder="B, A2"></div>
+          </div>
+        </div>
+
+        <!-- Step 2: Contact -->
+        <div class="form-step" data-step="1">
+          <h2>Contact Information</h2>
+          <div class="form-row">
+            <div class="form-group"><label>Email</label><input type="email" id="email" placeholder="john@example.com"></div>
+            <div class="form-group"><label>Phone</label><input type="tel" id="phone" placeholder="+90 555 123 4567"></div>
+          </div>
+          <div class="form-group"><label>Address</label><input type="text" id="address" placeholder="123 Main Street, Apt 4"></div>
+          <div class="form-row">
+            <div class="form-group"><label>City</label><input type="text" id="city" placeholder="Istanbul"></div>
+            <div class="form-group"><label>Country</label><input type="text" id="country" placeholder="Turkey"></div>
+          </div>
+          <div class="form-group"><label>Postal Code</label><input type="text" id="postalCode" placeholder="34000"></div>
+          <h3 class="form-section-title">Social Links</h3>
+          <div class="form-row">
+            <div class="form-group"><label>GitHub</label><input type="url" id="github" placeholder="https://github.com/username"></div>
+            <div class="form-group"><label>LinkedIn</label><input type="url" id="linkedin" placeholder="https://linkedin.com/in/username"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Twitter</label><input type="url" id="twitter" placeholder="https://twitter.com/username"></div>
+            <div class="form-group"><label>Website</label><input type="url" id="website" placeholder="https://mysite.com"></div>
+          </div>
+        </div>
+
+        <!-- Step 3: Experience -->
+        <div class="form-step" data-step="2">
+          <h2>Work Experience</h2>
+          <div id="experience-list" class="dynamic-list"></div>
+          <button class="add-btn" data-target="experience">+ Add Experience</button>
+        </div>
+
+        <!-- Step 4: Education -->
+        <div class="form-step" data-step="3">
+          <h2>Education & Training</h2>
+          <div id="education-list" class="dynamic-list"></div>
+          <button class="add-btn" data-target="education">+ Add Education</button>
+        </div>
+
+        <!-- Step 5: Skills & Languages -->
+        <div class="form-step" data-step="4">
+          <h2>Skills & Languages</h2>
+          <h3 class="form-section-title">Technical Skills</h3>
+          <div id="skills-list" class="dynamic-list"></div>
+          <button class="add-btn" data-target="skills">+ Add Skill</button>
+
+          <h3 class="form-section-title" style="margin-top:20px">Languages</h3>
+          <div id="languages-list" class="dynamic-list"></div>
+          <button class="add-btn" data-target="languages">+ Add Language</button>
+        </div>
+
+        <!-- Step 6: Projects -->
+        <div class="form-step" data-step="5">
+          <h2>Projects</h2>
+          <div id="projects-list" class="dynamic-list"></div>
+          <button class="add-btn" data-target="projects">+ Add Project</button>
+        </div>
+
+        <!-- Step 7: Certifications & Awards -->
+        <div class="form-step" data-step="6">
+          <h2>Certifications & Awards</h2>
+          <h3 class="form-section-title">Certifications</h3>
+          <div id="certifications-list" class="dynamic-list"></div>
+          <button class="add-btn" data-target="certifications">+ Add Certification</button>
+
+          <h3 class="form-section-title" style="margin-top:20px">Awards & Honors</h3>
+          <div id="awards-list" class="dynamic-list"></div>
+          <button class="add-btn" data-target="awards">+ Add Award</button>
+        </div>
+
+        <!-- Step 8: Additional -->
+        <div class="form-step" data-step="7">
+          <h2>Additional Information</h2>
+          <h3 class="form-section-title">Volunteering</h3>
+          <div id="volunteering-list" class="dynamic-list"></div>
+          <button class="add-btn" data-target="volunteering">+ Add Volunteering</button>
+
+          <h3 class="form-section-title" style="margin-top:20px">Interests / Hobbies</h3>
+          <div class="form-group">
+            <textarea id="interests" rows="2" placeholder="Reading, Photography, Open Source, Hiking..."></textarea>
+          </div>
+
+          <h3 class="form-section-title" style="margin-top:20px">References</h3>
+          <div id="references-list" class="dynamic-list"></div>
+          <button class="add-btn" data-target="references">+ Add Reference</button>
+        </div>
+
+        <div class="form-nav">
+          <button id="prev-btn" class="nav-btn" disabled>Back</button>
+          <button id="next-btn" class="nav-btn primary">Next</button>
+        </div>
+
+        <div class="theme-selector">
+          <h3>Choose Theme</h3>
+          <div class="theme-cards">
+            <label class="theme-card active">
+              <input type="radio" name="theme" value="minimal" checked>
+              <div class="theme-preview minimal-preview"><div class="tp-bar"></div><div class="tp-line"></div><div class="tp-line short"></div></div>
+              <span>Minimal</span>
+            </label>
+            <label class="theme-card">
+              <input type="radio" name="theme" value="modern">
+              <div class="theme-preview modern-preview"><div class="tp-bar"></div><div class="tp-line"></div><div class="tp-line short"></div></div>
+              <span>Modern</span>
+            </label>
+            <label class="theme-card">
+              <input type="radio" name="theme" value="creative">
+              <div class="theme-preview creative-preview"><div class="tp-sidebar"></div><div class="tp-content"><div class="tp-line"></div><div class="tp-line short"></div></div></div>
+              <span>Creative</span>
+            </label>
+            <label class="theme-card">
+              <input type="radio" name="theme" value="classic">
+              <div class="theme-preview classic-preview"><div class="tp-header-bar"></div><div class="tp-line"></div><div class="tp-line short"></div></div>
+              <span>Classic</span>
+            </label>
+            <label class="theme-card">
+              <input type="radio" name="theme" value="professional">
+              <div class="theme-preview professional-preview"><div class="tp-left"><div class="tp-line"></div></div><div class="tp-right"><div class="tp-line"></div><div class="tp-line short"></div></div></div>
+              <span>Professional</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="export-row">
+          <button id="export-btn" class="export-btn">Download PDF</button>
+          <button id="export-zip-btn" class="export-btn secondary">Download HTML</button>
+        </div>
+        <div class="form-actions">
+          <button id="reset-btn" class="reset-btn">Reset Form</button>
+        </div>
+        <p class="save-indicator" id="save-indicator"></p>
+      </div>
+
+      <div class="preview-panel">
+        <div class="preview-header">
+          <span>Live Preview</span>
+          <div class="preview-controls">
+            <button class="preview-size-btn active" data-width="100%">Desktop</button>
+            <button class="preview-size-btn" data-width="375px">Mobile</button>
+          </div>
+        </div>
+        <div class="preview-frame-wrapper">
+          <iframe id="preview-frame" class="preview-frame"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
+  <script src="/js/generator.js"></script>
+</body>
+</html>

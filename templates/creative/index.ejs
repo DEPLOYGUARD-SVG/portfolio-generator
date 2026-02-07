@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= data.fullName || 'Portfolio' %></title>
+  <% if (embedded) { %>
+  <style><%- css %></style>
+  <% } else { %>
+  <link rel="stylesheet" href="style.css">
+  <% } %>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <% if (data.photo) { %>
+        <img src="<%= data.photo %>" alt="<%= data.fullName %>" class="avatar">
+        <% } else { %>
+        <div class="avatar-placeholder"><%= (data.fullName || 'U').charAt(0) %></div>
+        <% } %>
+        <h1><%= data.fullName || 'Your Name' %></h1>
+        <% if (data.title) { %><p class="subtitle"><%= data.title %></p><% } %>
+
+        <% if (data.email || data.phone || data.city || data.address) { %>
+        <div class="sidebar-section">
+          <h3>Contact</h3>
+          <% if (data.email) { %><p><a href="mailto:<%= data.email %>"><%= data.email %></a></p><% } %>
+          <% if (data.phone) { %><p><%= data.phone %></p><% } %>
+          <% if (data.address) { %><p><%= data.address %></p><% } %>
+          <% if (data.postalCode) { %><p>Postal Code: <%= data.postalCode %></p><% } %>
+          <% if (data.city || data.country) { %><p><%= [data.city, data.country].filter(Boolean).join(', ') %></p><% } %>
+        </div>
+        <% } %>
+
+        <% if (data.dob || data.gender || data.nationality || data.drivingLicense) { %>
+        <div class="sidebar-section">
+          <h3>Personal</h3>
+          <% if (data.dob) { %><p>DOB: <%= data.dob %></p><% } %>
+          <% if (data.nationality) { %><p>Nationality: <%= data.nationality %></p><% } %>
+          <% if (data.gender) { %><p>Gender: <%= data.gender %></p><% } %>
+          <% if (data.drivingLicense) { %><p>License: <%= data.drivingLicense %></p><% } %>
+        </div>
+        <% } %>
+
+        <div class="sidebar-section">
+          <h3>Links</h3>
+          <div class="sidebar-links">
+            <% if (data.github) { %><a href="<%= data.github %>" target="_blank">GitHub</a><% } %>
+            <% if (data.linkedin) { %><a href="<%= data.linkedin %>" target="_blank">LinkedIn</a><% } %>
+            <% if (data.twitter) { %><a href="<%= data.twitter %>" target="_blank">Twitter</a><% } %>
+            <% if (data.website) { %><a href="<%= data.website %>" target="_blank">Website</a><% } %>
+          </div>
+        </div>
+
+        <% if (data.skills && data.skills.length > 0) { %>
+        <div class="sidebar-section">
+          <h3>Skills</h3>
+          <div class="skill-bars">
+            <% data.skills.forEach(function(skill) { %>
+            <div class="skill-bar-item">
+              <div class="skill-bar-header">
+                <span><%= skill.name || '' %></span>
+                <span class="skill-level-text"><%= skill.level || '' %></span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" style="width: <%= skill.level === 'Expert' ? '100' : skill.level === 'Advanced' ? '80' : skill.level === 'Intermediate' ? '60' : '35' %>%"></div>
+              </div>
+            </div>
+            <% }); %>
+          </div>
+        </div>
+        <% } %>
+
+        <% if (data.languages && data.languages.length > 0) { %>
+        <div class="sidebar-section">
+          <h3>Languages</h3>
+          <div class="sidebar-languages">
+            <% data.languages.forEach(function(lang) { %>
+            <div class="sidebar-language-item">
+              <span class="sidebar-lang-name"><%= lang.name || '' %></span>
+              <% if (lang.level) { %><span class="sidebar-lang-level"><%= lang.level %></span><% } %>
+            </div>
+            <% }); %>
+          </div>
+        </div>
+        <% } %>
+
+        <% if (data.interests) { %>
+        <div class="sidebar-section">
+          <h3>Interests</h3>
+          <p class="sidebar-interests"><%= data.interests %></p>
+        </div>
+        <% } %>
+      </div>
+    </aside>
+
+    <main class="content">
+      <% if (data.about) { %>
+      <section class="section">
+        <h2>About Me</h2>
+        <p class="about-text"><%= data.about %></p>
+      </section>
+      <% } %>
+
+      <% if (data.experience && data.experience.length > 0) { %>
+      <section class="section">
+        <h2>Experience</h2>
+        <div class="timeline">
+          <% data.experience.forEach(function(exp) { %>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <span class="date"><%= exp.startDate || '' %> &mdash; <%= exp.endDate || '' %></span>
+              <h3><%= exp.position || '' %></h3>
+              <p class="company"><%= exp.company || '' %></p>
+              <% if (exp.description) { %><p class="desc"><%= exp.description %></p><% } %>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </section>
+      <% } %>
+
+      <% if (data.projects && data.projects.length > 0) { %>
+      <section class="section">
+        <h2>Projects</h2>
+        <div class="project-grid">
+          <% data.projects.forEach(function(proj) { %>
+          <div class="project-card">
+            <div class="project-accent"></div>
+            <h3><%= proj.name || '' %></h3>
+            <% if (proj.description) { %><p class="desc"><%= proj.description %></p><% } %>
+            <% if (proj.tech) { %>
+            <div class="tech-tags"><% proj.tech.split(',').forEach(function(t) { %><span><%= t.trim() %></span><% }); %></div>
+            <% } %>
+            <div class="project-links">
+              <% if (proj.demo) { %><a href="<%= proj.demo %>" target="_blank">Demo</a><% } %>
+              <% if (proj.github) { %><a href="<%= proj.github %>" target="_blank">Source</a><% } %>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </section>
+      <% } %>
+
+      <% if (data.education && data.education.length > 0) { %>
+      <section class="section">
+        <h2>Education</h2>
+        <div class="timeline">
+          <% data.education.forEach(function(edu) { %>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <span class="date"><%= edu.startDate || '' %> &mdash; <%= edu.endDate || '' %></span>
+              <h3><%= edu.degree || '' %></h3>
+              <p class="company"><%= edu.school || '' %></p>
+              <% if (edu.description) { %><p class="desc"><%= edu.description %></p><% } %>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </section>
+      <% } %>
+
+      <% if (data.certifications && data.certifications.length > 0) { %>
+      <section class="section">
+        <h2>Certifications</h2>
+        <div class="timeline">
+          <% data.certifications.forEach(function(cert) { %>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <% if (cert.date) { %><span class="date"><%= cert.date %></span><% } %>
+              <h3><%= cert.name || '' %></h3>
+              <% if (cert.issuer) { %><p class="company"><%= cert.issuer %></p><% } %>
+              <% if (cert.credentialId) { %><p class="desc">Credential ID: <%= cert.credentialId %></p><% } %>
+              <% if (cert.url) { %><p class="cert-link"><a href="<%= cert.url %>" target="_blank">View Credential</a></p><% } %>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </section>
+      <% } %>
+
+      <% if (data.awards && data.awards.length > 0) { %>
+      <section class="section">
+        <h2>Awards</h2>
+        <div class="timeline">
+          <% data.awards.forEach(function(award) { %>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <% if (award.date) { %><span class="date"><%= award.date %></span><% } %>
+              <h3><%= award.title || '' %></h3>
+              <% if (award.issuer) { %><p class="company"><%= award.issuer %></p><% } %>
+              <% if (award.description) { %><p class="desc"><%= award.description %></p><% } %>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </section>
+      <% } %>
+
+      <% if (data.volunteering && data.volunteering.length > 0) { %>
+      <section class="section">
+        <h2>Volunteering</h2>
+        <div class="timeline">
+          <% data.volunteering.forEach(function(vol) { %>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <span class="date"><%= vol.startDate || '' %> &mdash; <%= vol.endDate || '' %></span>
+              <h3><%= vol.role || '' %></h3>
+              <p class="company"><%= vol.organization || '' %></p>
+              <% if (vol.description) { %><p class="desc"><%= vol.description %></p><% } %>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </section>
+      <% } %>
+
+      <% if (data.references && data.references.length > 0) { %>
+      <section class="section">
+        <h2>References</h2>
+        <div class="references-grid">
+          <% data.references.forEach(function(ref) { %>
+          <div class="reference-card">
+            <h3><%= ref.name || '' %></h3>
+            <% if (ref.position) { %><p class="company"><%= ref.position %></p><% } %>
+            <% if (ref.relationship) { %><p class="desc"><%= ref.relationship %></p><% } %>
+            <div class="reference-contact">
+              <% if (ref.email) { %><p><a href="mailto:<%= ref.email %>"><%= ref.email %></a></p><% } %>
+              <% if (ref.phone) { %><p><%= ref.phone %></p><% } %>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </section>
+      <% } %>
+    </main>
+  </div>
+</body>
+</html>

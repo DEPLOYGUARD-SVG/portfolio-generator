@@ -1,0 +1,19 @@
+{
+  "name": "portfolio-generator",
+  "version": "1.0.0",
+  "description": "Generate beautiful portfolio websites from a simple form. Choose from 3 themes, preview in real-time, and export as static HTML.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": ["portfolio", "generator", "express", "ejs"],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
+    "jszip": "^3.10.1"
+  }
+}

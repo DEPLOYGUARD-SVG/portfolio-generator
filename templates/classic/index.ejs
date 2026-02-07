@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= data.fullName || 'Portfolio' %></title>
+  <% if (embedded) { %>
+  <style><%- css %></style>
+  <% } else { %>
+  <link rel="stylesheet" href="style.css">
+  <% } %>
+</head>
+<body>
+  <div class="cv-container">
+
+    <!-- Header -->
+    <header class="cv-header">
+      <div class="header-inner">
+        <% if (data.photo) { %>
+        <img src="<%= data.photo %>" alt="<%= data.fullName %>" class="header-photo">
+        <% } %>
+        <div class="header-text">
+          <h1><%= data.fullName || 'Your Name' %></h1>
+          <% if (data.title) { %><p class="header-title"><%= data.title %></p><% } %>
+        </div>
+      </div>
+    </header>
+
+    <!-- Personal Information -->
+    <% if (data.about || data.dob || data.gender || data.nationality || data.drivingLicense) { %>
+    <section class="cv-section">
+      <h2 class="section-heading">Personal Information</h2>
+      <div class="personal-info-grid">
+        <% if (data.dob) { %>
+        <div class="info-row">
+          <span class="info-label">Date of Birth</span>
+          <span class="info-value"><%= data.dob %></span>
+        </div>
+        <% } %>
+        <% if (data.gender) { %>
+        <div class="info-row">
+          <span class="info-label">Gender</span>
+          <span class="info-value"><%= data.gender %></span>
+        </div>
+        <% } %>
+        <% if (data.nationality) { %>
+        <div class="info-row">
+          <span class="info-label">Nationality</span>
+          <span class="info-value"><%= data.nationality %></span>
+        </div>
+        <% } %>
+        <% if (data.drivingLicense) { %>
+        <div class="info-row">
+          <span class="info-label">Driving Licence</span>
+          <span class="info-value"><%= data.drivingLicense %></span>
+        </div>
+        <% } %>
+      </div>
+      <% if (data.about) { %>
+      <p class="about-text"><%= data.about %></p>
+      <% } %>
+    </section>
+    <% } %>
+
+    <!-- Contact Information -->
+    <% if (data.email || data.phone || data.address || data.city || data.country || data.postalCode || data.github || data.linkedin || data.twitter || data.website) { %>
+    <section class="cv-section">
+      <h2 class="section-heading">Contact</h2>
+      <div class="contact-columns">
+        <div class="contact-col">
+          <% if (data.email) { %>
+          <div class="info-row">
+            <span class="info-label">Email</span>
+            <span class="info-value"><a href="mailto:<%= data.email %>"><%= data.email %></a></span>
+          </div>
+          <% } %>
+          <% if (data.phone) { %>
+          <div class="info-row">
+            <span class="info-label">Phone</span>
+            <span class="info-value"><%= data.phone %></span>
+          </div>
+          <% } %>
+          <% if (data.address || data.city || data.country || data.postalCode) { %>
+          <div class="info-row">
+            <span class="info-label">Address</span>
+            <span class="info-value"><%= [data.address, data.city, data.postalCode, data.country].filter(Boolean).join(', ') %></span>
+          </div>
+          <% } %>
+        </div>
+        <div class="contact-col">
+          <% if (data.github) { %>
+          <div class="info-row">
+            <span class="info-label">GitHub</span>
+            <span class="info-value"><a href="<%= data.github %>" target="_blank"><%= data.github %></a></span>
+          </div>
+          <% } %>
+          <% if (data.linkedin) { %>
+          <div class="info-row">
+            <span class="info-label">LinkedIn</span>
+            <span class="info-value"><a href="<%= data.linkedin %>" target="_blank"><%= data.linkedin %></a></span>
+          </div>
+          <% } %>
+          <% if (data.twitter) { %>
+          <div class="info-row">
+            <span class="info-label">Twitter</span>
+            <span class="info-value"><a href="<%= data.twitter %>" target="_blank"><%= data.twitter %></a></span>
+          </div>
+          <% } %>
+          <% if (data.website) { %>
+          <div class="info-row">
+            <span class="info-label">Website</span>
+            <span class="info-value"><a href="<%= data.website %>" target="_blank"><%= data.website %></a></span>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </section>
+    <% } %>
+
+    <!-- Work Experience -->
+    <% if (data.experience && data.experience.length > 0) { %>
+    <section class="cv-section">
+      <h2 class="section-heading">Work Experience</h2>
+      <% data.experience.forEach(function(exp) { %>
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title-group">
+            <h3 class="entry-title"><%= exp.position || '' %></h3>
+            <p class="entry-org"><%= exp.company || '' %></p>
+          </div>
+          <div class="entry-meta">
+            <span class="entry-date"><%= exp.startDate || '' %> &mdash; <%= exp.endDate || 'Present' %></span>
+            <% if (exp.location) { %><span class="entry-location"><%= exp.location %></span><% } %>
+          </div>
+        </div>
+        <% if (exp.description) { %><p class="entry-desc"><%= exp.description %></p><% } %>
+      </div>
+      <% }); %>
+    </section>
+    <% } %>
+
+    <!-- Education -->
+    <% if (data.education && data.education.length > 0) { %>
+    <section class="cv-section">
+      <h2 class="section-heading">Education and Training</h2>
+      <% data.education.forEach(function(edu) { %>
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title-group">
+            <h3 class="entry-title"><%= edu.degree || '' %></h3>
+            <p class="entry-org"><%= edu.school || '' %></p>
+          </div>
+          <div class="entry-meta">
+            <span class="entry-date"><%= edu.startDate || '' %> &mdash; <%= edu.endDate || 'Present' %></span>
+            <% if (edu.location) { %><span class="entry-location"><%= edu.location %></span><% } %>
+          </div>
+        </div>
+        <% if (edu.description) { %><p class="entry-desc"><%= edu.description %></p><% } %>
+      </div>
+      <% }); %>
+    </section>
+    <% } %>
+
+    <!-- Skills -->
+    <% if (data.skills && data.skills.length > 0) { %>
+    <section class="cv-section">
+      <h2 class="section-heading">Skills</h2>
+      <div class="skills-list">
+        <% data.skills.forEach(function(skill) { %>
+        <div class="skill-item">
+          <span class="skill-name"><%= skill.name || '' %></span>
+          <% if (skill.level) { %>
+          <span class="skill-level level-<%= (skill.level || '').toLowerCase() %>"><%= skill.level %></span>
+          <% } %>
+          <% if (skill.category) { %>
+          <span class="skill-category"><%= skill.category %></span>
+          <% } %>
+        </div>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
+    <!-- Languages (Europass CEFR Table) -->
+    <% if (data.languages && data.languages.length > 0) { %>
+    <section class="cv-section">
+      <h2 class="section-heading">Language Skills</h2>
+      <table class="lang-table">
+        <thead>
+          <tr>
+            <th class="lang-name-col" rowspan="2">Language</th>
+            <th class="lang-name-col" rowspan="2">Level</th>
+            <th colspan="2">Understanding</th>
+            <th colspan="2">Speaking</th>
+            <th>Writing</th>
+          </tr>
+          <tr>
+            <th>Listening</th>
+            <th>Reading</th>
+            <th>Spoken interaction</th>
+            <th>Spoken production</th>
+            <th>Writing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% data.languages.forEach(function(lang) { %>
+          <tr>
+            <td class="lang-name-cell"><%= lang.name || '' %></td>
+            <td class="lang-level-cell"><%= lang.level || '' %></td>
+            <td class="cefr-cell"><%= lang.listening || '' %></td>
+            <td class="cefr-cell"><%= lang.reading || '' %></td>
+            <td class="cefr-cell"><%= lang.speaking || '' %></td>
+            <td class="cefr-cell"><%= lang.speaking || '' %></td>
+            <td class="cefr-cell"><%= lang.writing || '' %></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      <p class="cefr-note">Levels: A1/A2 (Basic user) &mdash; B1/B2 (Independent user) &mdash; C1/C2 (Proficient user) &mdash; Common European Framework of Reference for Languages</p>
+    </section>
+    <% } %>
+
+    <!-- Projects -->
+    <% if (data.projects && data.projects.length > 0) { %>
+    <section class="cv-section">
+      <h2 class="section-heading">Projects</h2>
+      <% data.projects.forEach(function(proj) { %>
+      <div class="entry">
+        <h3 class="entry-title"><%= proj.name || '' %></h3>
+        <% if (proj.description) { %><p class="entry-desc"><%= proj.description %></p><% } %>
+        <% if (proj.tech) { %>
+        <p class="project-tech"><strong>Technologies:</strong> <%= proj.tech %></p>
+        <% } %>
+        <div class="project-links">
+          <% if (proj.demo) { %><a href="<%= proj.demo %>" target="_blank">Live Demo</a><% } %>
+          <% if (proj.github) { %><a href="<%= proj.github %>" target="_blank">Source Code</a><% } %>
+        </div>
+      </div>
+      <% }); %>
+    </section>
+    <% } %>
+
+    <!-- Certifications -->
+    <% if (data.certifications && data.certifications.length > 0) { %>
+    <section class="cv-section">
+      <h2 class="section-heading">Certifications</h2>
+      <% data.certifications.forEach(function(cert) { %>
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title-group">
+            <h3 class="entry-title">
+              <% if (cert.url) { %><a href="<%= cert.url %>" target="_blank"><%= cert.name || '' %></a><% } else { %><%= cert.name || '' %><% } %>
+            </h3>
+            <p class="entry-org"><%= cert.issuer || '' %></p>
+          </div>
+          <div class="entry-meta">
+            <% if (cert.date) { %><span class="entry-date"><%= cert.date %></span><% } %>
+          </div>
+        </div>
+        <% if (cert.credentialId) { %><p class="entry-desc">Credential ID: <%= cert.credentialId %></p><% } %>
+      </div>
+      <% }); %>
+    </section>
+    <% } %>
+
+    <!-- Awards -->
+    <% if (data.awards && data.awards.length > 0) { %>
+    <section class="cv-section">
+      <h2 class="section-heading">Honours and Awards</h2>
+      <% data.awards.forEach(function(award) { %>
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title-group">
+            <h3 class="entry-title"><%= award.title || '' %></h3>
+            <p class="entry-org"><%= award.issuer || '' %></p>
+          </div>
+          <div class="entry-meta">
+            <% if (award.date) { %><span class="entry-date"><%= award.date %></span><% } %>
+          </div>
+        </div>
+        <% if (award.description) { %><p class="entry-desc"><%= award.description %></p><% } %>
+      </div>
+      <% }); %>
+    </section>
+    <% } %>
+
+    <!-- Volunteering -->
+    <% if (data.volunteering && data.volunteering.length > 0) { %>
+    <section class="cv-section">
+      <h2 class="section-heading">Volunteering</h2>
+      <% data.volunteering.forEach(function(vol) { %>
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title-group">
+            <h3 class="entry-title"><%= vol.role || '' %></h3>
+            <p class="entry-org"><%= vol.organization || '' %></p>
+          </div>
+          <div class="entry-meta">
+            <span class="entry-date"><%= vol.startDate || '' %> &mdash; <%= vol.endDate || 'Present' %></span>
+          </div>
+        </div>
+        <% if (vol.description) { %><p class="entry-desc"><%= vol.description %></p><% } %>
+      </div>
+      <% }); %>
+    </section>
+    <% } %>
+
+    <!-- Interests -->
+    <% if (data.interests) { %>
+    <section class="cv-section">
+      <h2 class="section-heading">Interests</h2>
+      <p class="interests-text"><%= data.interests %></p>
+    </section>
+    <% } %>
+
+    <!-- References -->
+    <% if (data.references && data.references.length > 0) { %>
+    <section class="cv-section">
+      <h2 class="section-heading">References</h2>
+      <div class="references-grid">
+        <% data.references.forEach(function(ref) { %>
+        <div class="reference-card">
+          <h3 class="ref-name"><%= ref.name || '' %></h3>
+          <% if (ref.position) { %><p class="ref-position"><%= ref.position %></p><% } %>
+          <% if (ref.relationship) { %><p class="ref-relationship"><%= ref.relationship %></p><% } %>
+          <div class="ref-contact">
+            <% if (ref.email) { %><p><a href="mailto:<%= ref.email %>"><%= ref.email %></a></p><% } %>
+            <% if (ref.phone) { %><p><%= ref.phone %></p><% } %>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
+  </div>
+</body>
+</html>
